@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Defend_It.Design_Components;
 using Defend_It.Game_States;
 using Defend_It.IO_Components;
 using Microsoft.Xna.Framework;
@@ -29,6 +30,7 @@ namespace Defend_It
 
         public List<GameState> GameStates;
         public int CurrentGameState;
+        private Cursor crosshair;
 
         public Main()
         {
@@ -57,6 +59,7 @@ namespace Defend_It
         protected override void Initialize()
         {
             if (!Assets.LoadTextures(Content)) Exit();
+            crosshair = new Cursor(Assets.GetTexture("crosshair"));
 
             GameStates.AddRange(new GameState[]
             {
@@ -80,7 +83,7 @@ namespace Defend_It
         protected override void Update(GameTime gameTime)
         {
             InputHandler.Update();
-
+            crosshair.Update();
             GameStates[CurrentGameState]?.Update(gameTime);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -94,10 +97,10 @@ namespace Defend_It
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.LinearWrap);
 
             GameStates[CurrentGameState]?.Draw(spriteBatch);
-
+            crosshair.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

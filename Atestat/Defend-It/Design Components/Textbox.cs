@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Defend_It.IO_Components;
+﻿using Defend_It.IO_Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,10 +7,12 @@ namespace Defend_It.Design_Components
 {
     public class Textbox : Label
     {
+
+        //TODO: ASK SORIN ABOUT THIS SHIT
         private Texture2D texture;
         public new string Text
         {
-            get { return base.Text; }
+            get => base.Text;
             set
             {
                 if (Font.MeasureString(value).X + Spacing.X > rectangle.Size.X) return;
@@ -59,7 +56,7 @@ namespace Defend_It.Design_Components
 
         public Textbox(string text, Rectangle rectangle) : base(string.Empty, new Vector2(rectangle.X + Spacing.X, rectangle.Y + Spacing.Y))
         {
-            texture = Assets.Textures["Textbox"];
+            texture = Assets.GetTexture("textbox");
             IsFocused = false;
             this.rectangle = rectangle;
             Text = text;

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Defend_It.Design_Components;
 using Defend_It.Game_Objects;
 using Defend_It.IO_Components;
 using Microsoft.Xna.Framework;
@@ -9,6 +11,7 @@ namespace Defend_It.Game_States
 {
     public class StatePlaying : GameState
     {
+        private Dictionary<string, Label> labels = new Dictionary<string, Label>();
         private FlyManager flyManager;
         private Player player;
 
@@ -40,6 +43,15 @@ namespace Defend_It.Game_States
         
         public StatePlaying() : base("Playing")
         {
+            labels["Level"] = new Label("Nivel: " + Level, new Vector2(0), 3000);
+            labels["Level"].Position = new Vector2(
+                Main.WindowWidth / 2 - (int)labels["Level"].Size.X / 2,
+                (float)Main.WindowHeight / 4);
+
+            labels["Score"] = new Label("Scor: " + Score, new Vector2(5, 0));
+            labels["Lives"] = new Label("Vieti: " + Lives, new Vector2(5, 25));
+            labels["Dollars"] = new Label("Dolari: " + Dollars, new Vector2(5, 50));
+
             player = new Player();
             flyManager = new FlyManager();
 
@@ -48,8 +60,8 @@ namespace Defend_It.Game_States
             Level = 1;
             Lives = 3;
 
-            FlyManager.Instance.FlyKilled += OnFlyKilled;
-            FlyManager.Instance.FlyReachedTarget += OnFlyReachedTarget;
+            flyManager.FlyKilled += OnFlyKilled;
+            flyManager.FlyReachedTarget += OnFlyReachedTarget;
         }
 
         private void OnFlyReachedTarget(object sender, EventArgs eventArgs)
@@ -65,14 +77,26 @@ namespace Defend_It.Game_States
             var fly = (Fly)sender;
 
             Score += fly.PointsGiven;
-            Assets.SoundEffect["Fly_death"].Play(volume, Pitch, Pan);
+            Assets.GetSoundEffect("flyDeath").Play(volume, Pitch, Pan);
             flyManager.Flies.Remove(fly);
+        }
+
+        private void UpdateLabels(GameTime gameTime)
+        {
+            labels["Score"].Text = "Scor: " + Score;
+            labels["Lives"].Text = "Vieti: " + Lives;
+            labels["Level"].Text = "Nivel: " + Level;
+            labels["Dollars"].Text = "Dolari: " + Dollars;
+
+            labels["Level"].Update(gameTime);
+
         }
 
         public override void Update(GameTime gameTime)
         {
             player.Update(gameTime);
-            flyManager.Update(gameTime, Level);
+            flyManager.Update(gameTime);
+            UpdateLabels(gameTime);
 
             CheckMissileFlyCollision();
             UpdateLevelOnScore();
@@ -87,7 +111,7 @@ namespace Defend_It.Game_States
             {
                 fly.HealthPoints -= AmmoManager.MissilePower;
                 if (fly.HealthPoints > 0)
-                    Assets.SoundEffect["RocketExplosion"].Play(volume, Pitch, Pan);
+                    Assets.GetSoundEffect("rocketExplosion").Play(volume, Pitch, Pan);
                 missile.IsDestroyed = true;
             }
         }
@@ -98,22 +122,34 @@ namespace Defend_It.Game_States
 
             Level++;
             flyManager.Flies.Clear();
-
-            if (Level == FlyManager.UnlockingLevelJuggernautFly) flyManager.CanCreateJuggernautFly = true;
-            if (Level == FlyManager.UnlockingLevelHuskyFly) flyManager.CanCreateHuskyFly = true;
-            if (Level == FlyManager.UnlockingLevelMammothFly) flyManager.CanCreateMammothFly = true;
+            flyManager.UnlockNewFlies(Level);
 
             if (Level % 3 == 0) flyManager.SpawnTimeSoldierFly *= 0.9;
             if (Level % 5 == 0) flyManager.SpawnTimeJuggernautFly *= 0.7;
             if (Level % 7 == 0) flyManager.SpawnTimeHuskyFly *= 0.8;
             if (Level % 10 == 0) flyManager.SpawnTimeMammothFly *= 0.6;
-            //LevelUpdated?.Invoke(null, null);
+
+            Dollars += (Score - 60 * (Level - 2) * (Level - 2) - 200 * (Level - 2)) / 10;
+            if(ShouldReceiveDollarBonus == 1)
+                Dollars += DollarBonus;
+
+            labels["Level"].Show(3000);
+            ShouldReceiveDollarBonus = 1;
+
+            // Main.Instance.FocusOnGameState("Shop");
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(Assets.GetTexture("grass"), Vector2.Zero,
+                new Rectangle(0, 0, Main.WindowWidth, Main.WindowHeight), Color.White, 0, Vector2.Zero, 1f,
+                SpriteEffects.None, 0);
+
             flyManager.Draw(spriteBatch);
             player.Draw(spriteBatch);
+
+            foreach (var label in labels)
+                label.Value.Draw(spriteBatch);
         }
     }
 }

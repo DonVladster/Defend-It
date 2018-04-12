@@ -13,9 +13,9 @@ namespace Defend_It.IO_Components
 {
     public static class Assets
     {
-        public static Dictionary<string, Texture2D> Textures = new Dictionary<string, Texture2D>();
-        public static Dictionary<string, SpriteFont> Fonts = new Dictionary<string, SpriteFont>();
-        public static Dictionary<string, SoundEffect> SoundEffect = new Dictionary<string, SoundEffect>();
+        private static Dictionary<string, Texture2D> Textures = new Dictionary<string, Texture2D>();
+        private static Dictionary<string, SpriteFont> Fonts = new Dictionary<string, SpriteFont>();
+        private static Dictionary<string, SoundEffect> SoundEffects = new Dictionary<string, SoundEffect>();
 
         public static bool LoadTextures(ContentManager content)
         {
@@ -23,6 +23,7 @@ namespace Defend_It.IO_Components
             {
                 Textures["arrow"] = content.Load<Texture2D>("arrowUp");
                 Textures["heart"] = content.Load<Texture2D>("heart");
+                Textures["crosshair"] = content.Load<Texture2D>("crosshair");
                 Textures["nuke"] = content.Load<Texture2D>("skull");
                 Textures["grass"] = content.Load<Texture2D>("grass");
                 Textures["fly"] = content.Load<Texture2D>("fly");
@@ -41,16 +42,58 @@ namespace Defend_It.IO_Components
                 Fonts["calibri18"] = content.Load<SpriteFont>("calibri18");
                 Fonts["calibri26"] = content.Load<SpriteFont>("calibri26");
 
-                SoundEffect["flyDeath"] = content.Load<SoundEffect>("slimeSplash");
-                SoundEffect["rocketExplosion"] = content.Load<SoundEffect>("rocketExplosionSound");
+                SoundEffects["flyDeath"] = content.Load<SoundEffect>("slimeSplash");
+                SoundEffects["rocketExplosion"] = content.Load<SoundEffect>("rocketExplosionSound");
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                ErrorLog.Write("Eroare la incarcarea texturilor: " + ex.Message);
+                ErrorLog.Write("Eroare la incarcarea texturilor: " + e.Message);
                 return false;
             }
 
+        }
+
+        public static Texture2D GetTexture(string name)
+        {
+            try
+            {
+                return Textures[name];
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Write("Eroare la folosirea texturilor: " + e.Message);
+                Environment.Exit(0);
+            }
+            return null;
+        }
+
+        public static SoundEffect GetSoundEffect(string name)
+        {
+            try
+            {
+                return SoundEffects[name];
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Write("Eroare la folosirea efectelor sonore: " + e.Message);
+                Environment.Exit(0);
+            }
+            return null;
+        }
+
+        public static SpriteFont GetFont(string name)
+        {
+            try
+            {
+                return Fonts[name];
+            }
+            catch (Exception e)
+            {
+                ErrorLog.Write("Eroare la folosirea fontului de text: " + e.Message);
+                Environment.Exit(0);
+            }
+            return null;
         }
     }
 }

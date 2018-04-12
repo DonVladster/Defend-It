@@ -42,11 +42,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Design Components\Button.cs" />
+    <Compile Include="Design Components\Cursor.cs" />
     <Compile Include="Design Components\Label.cs" />
     <Compile Include="Design Components\Textbox.cs" />
     <Compile Include="FlyManager.cs" />
     <Compile Include="Game Objects\Fly.cs" />
-    <Compile Include="Game Objects\Frog.cs" />
     <Compile Include="Game Objects\Missile.cs" />
     <Compile Include="Game States\GameState.cs" />
     <Compile Include="Game States\StateMainMenu.cs" />
@@ -94,6 +94,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\calibri26.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\crosshair.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\fly.xnb">

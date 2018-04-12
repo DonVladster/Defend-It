@@ -56,7 +56,7 @@ namespace Defend_It.Game_Objects
     {
         public SoldierFly() : base(new Point(32))
         {
-            SelectedTexture = Assets.Textures["fly"];
+            SelectedTexture = Assets.GetTexture("fly");
 
             HealthPoints = 1;
             Speed = 1;
@@ -69,7 +69,7 @@ namespace Defend_It.Game_Objects
     {
         public JuggernautFly() : base(new Point(48))
         {
-            SelectedTexture = Assets.Textures["fly"];
+            SelectedTexture = Assets.GetTexture("fly");
 
             HealthPoints = 3;
             Speed = 1;
@@ -82,7 +82,7 @@ namespace Defend_It.Game_Objects
     {
         public MammothFly() : base(new Point(64))
         {
-            SelectedTexture = Assets.Textures["flyMammoth"];
+            SelectedTexture = Assets.GetTexture("flyMammoth");
 
             HealthPoints = 9;
             Speed = 0.5;
@@ -95,7 +95,7 @@ namespace Defend_It.Game_Objects
     {
         public HuskyFly() : base(new Point(32))
         {
-            SelectedTexture = Assets.Textures["flyHusky"];
+            SelectedTexture = Assets.GetTexture("flyHusky");
 
             HealthPoints = 1;
             Speed = 2.5;

@@ -27,7 +27,7 @@ namespace Defend_It.Design_Components
         /// <param name="visibilityTime">Time in which the label is visible</param>
         public Label(string text, Vector2 position, double visibilityTime)
         {
-            Font = Assets.Fonts["Calibri18"];
+            Font = Assets.GetFont("calibri18");
             Text = text;
             Position = position;
             Show(visibilityTime);
@@ -35,7 +35,7 @@ namespace Defend_It.Design_Components
 
         public Label(string text, Vector2 position)
         {
-            Font = Assets.Fonts["Calibri18"];
+            Font = Assets.GetFont("calibri18");
             Text = text;
             Position = position;
             Visible = true;
@@ -56,7 +56,10 @@ namespace Defend_It.Design_Components
             visibilityTime -= elapsedTime;
 
             if (visibilityTime <= 0)
+            {
                 Visible = false;
+                elapsedTime = 0;
+            }
 
             elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
         }

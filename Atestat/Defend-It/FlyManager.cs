@@ -13,16 +13,15 @@ namespace Defend_It
 {
     public class FlyManager
     {
+        //TODO : REMOVE THE FUCKING NAMES FORM THE CODE FFS
+        private const int UnlockingLevelJuggernautFly = 3;
+        private const int UnlockingLevelMammothFly = 10;
+        private const int UnlockingLevelHuskyFly = 7;
 
-        public const int UnlockingLevelSoldierFly = 1;
-        public const int UnlockingLevelJuggernautFly = 3;
-        public const int UnlockingLevelMammothFly = 10;
-        public const int UnlockingLevelHuskyFly = 7;
-
-        public bool CanCreateSoldierFly = true;
-        public bool CanCreateJuggernautFly;
-        public bool CanCreateMammothFly;
-        public bool CanCreateHuskyFly;
+        private bool CanCreateSoldierFly = true;
+        private bool CanCreateJuggernautFly;
+        private bool CanCreateMammothFly;
+        private bool CanCreateHuskyFly;
 
         private const int BaseSpawnTimeSoldierFly = 1000;
         private const int BaseSpawnTimeJuggernautFly = 5000;
@@ -42,18 +41,6 @@ namespace Defend_It
 
         public List<Fly> Flies = new List<Fly>();
 
-        private static FlyManager instance;
-
-        public static FlyManager Instance
-        {
-            get
-            {
-                if (instance == null) instance = new FlyManager();
-                return instance;
-            }
-        }
-       
-
         public event EventHandler FlyKilled;
         public event EventHandler FlyReachedTarget;
         
@@ -66,7 +53,7 @@ namespace Defend_It
             SpawnTimeHuskyFly = BaseSpawnTimeHuskyFly;
         }
         
-        public void Update(GameTime gameTime, int currentLevel)
+        public void Update(GameTime gameTime)
         {
             if (elapsedCreateTimeSoldierFly >= SpawnTimeSoldierFly && CanCreateSoldierFly)
             {
@@ -133,6 +120,13 @@ namespace Defend_It
                 {
                     FlyReachedTarget?.Invoke(Flies[i], null);
                 }
+        }
+
+        public void UnlockNewFlies(int level)
+        {
+            if (level == UnlockingLevelJuggernautFly) CanCreateJuggernautFly = true;
+            if (level == UnlockingLevelHuskyFly) CanCreateHuskyFly = true;
+            if (level == UnlockingLevelMammothFly) CanCreateMammothFly = true;
         }
 
 

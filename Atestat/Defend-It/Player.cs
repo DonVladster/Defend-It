@@ -37,7 +37,7 @@ namespace Defend_It
 
         public Player()
         {
-            Texture = Assets.Textures["frog"];
+            Texture = Assets.GetTexture("frog");
 
             rectangle.Width = 64;
             rectangle.Height = 64;
