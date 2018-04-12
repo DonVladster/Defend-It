@@ -31,10 +31,10 @@ namespace Defend_It
 
         private const int MovementUpdateTime = 20;
 
-        private double SpawnTimeSoldierFly;
-        private double SpawnTimeJuggernautFly;
-        private double SpawnTimeMammothFly;
-        private double SpawnTimeHuskyFly;
+        public double SpawnTimeSoldierFly;
+        public double SpawnTimeJuggernautFly;
+        public double SpawnTimeMammothFly;
+        public double SpawnTimeHuskyFly;
 
 
         private double elapsedCreateTimeSoldierFly, elapsedCreateTimeJuggernautFly, elapsedCreateTimeMammothFly, elapsedCreateTimeHuskyFly;
@@ -64,16 +64,6 @@ namespace Defend_It
             SpawnTimeJuggernautFly = BaseSpawnTimeJuggernautFly;
             SpawnTimeMammothFly = BaseSpawnTimeMammothFly;
             SpawnTimeHuskyFly = BaseSpawnTimeHuskyFly;
-            
-            StatePlaying.Instance.IncreaseSpawnTime += OnIncreaseSpawnTime;
-        }
-
-        private void OnIncreaseSpawnTime(object sender, EventArgs eventArgs)
-        {
-            if ((int)sender % 3 == 0) SpawnTimeSoldierFly *= 0.9;
-            if ((int)sender % 5 == 0) SpawnTimeJuggernautFly *= 0.7;
-            if ((int)sender % 7 == 0) SpawnTimeHuskyFly *= 0.8;
-            if ((int)sender % 10 == 0) SpawnTimeMammothFly *= 0.6;
         }
         
         public void Update(GameTime gameTime, int currentLevel)

@@ -32,15 +32,12 @@ namespace Defend_It.Game_States
                 if (instance == null) instance = new StatePlaying();
                 return instance;
             }
-            set { instance = value; }
+            set => instance = value;
         }
 
-        public event EventHandler LevelUpdated;
+       // public event EventHandler LevelUpdated;
         //public event EventHandler GameOver;
-
-        public event EventHandler IncreaseSpawnTime;
-
-
+        
         public StatePlaying() : base("Playing")
         {
             player = new Player();
@@ -106,8 +103,11 @@ namespace Defend_It.Game_States
             if (Level == FlyManager.UnlockingLevelHuskyFly) flyManager.CanCreateHuskyFly = true;
             if (Level == FlyManager.UnlockingLevelMammothFly) flyManager.CanCreateMammothFly = true;
 
-            IncreaseSpawnTime?.Invoke(Level, null);
-            LevelUpdated?.Invoke(null, null);
+            if (Level % 3 == 0) flyManager.SpawnTimeSoldierFly *= 0.9;
+            if (Level % 5 == 0) flyManager.SpawnTimeJuggernautFly *= 0.7;
+            if (Level % 7 == 0) flyManager.SpawnTimeHuskyFly *= 0.8;
+            if (Level % 10 == 0) flyManager.SpawnTimeMammothFly *= 0.6;
+            //LevelUpdated?.Invoke(null, null);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

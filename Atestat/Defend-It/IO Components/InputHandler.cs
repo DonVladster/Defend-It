@@ -1,44 +1,21 @@
-﻿using System;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 
 namespace Defend_It.IO_Components
 {
-    public class InputHandler
+    public static class InputHandler
     {
 
-        public MouseState CurrentMouseState;
-        public MouseState LastMouseState;
-        public KeyboardState CurrentKeyboardState;
-        public KeyboardState LastKeyboardState;
+        public static MouseState CurrentMouseState;
+        public static MouseState LastMouseState;
+        public static KeyboardState CurrentKeyboardState;
+        public static KeyboardState LastKeyboardState;
 
-
-        public event EventHandler LeftClick;
-        public event EventHandler RightClick;
-
-        private static InputHandler instance;
-        public static InputHandler Instance
-        {
-            get
-            {
-                if (instance == null) instance = new InputHandler();
-
-                return instance;
-            }
-            set => instance = value;
-        }
-
-        public void Update()
+        public static void Update()
         {
             UpdateStates();
-
-            if (CurrentMouseState.LeftButton == ButtonState.Pressed && LastMouseState.LeftButton == ButtonState.Released)
-                LeftClick?.Invoke(null, null);
-
-            if (CurrentMouseState.RightButton == ButtonState.Pressed && LastMouseState.RightButton == ButtonState.Released)
-                RightClick?.Invoke(null, null);
         }
 
-        public void UpdateStates()
+        public static void UpdateStates()
         {
             LastMouseState = CurrentMouseState;
             CurrentMouseState = Mouse.GetState();
@@ -46,9 +23,21 @@ namespace Defend_It.IO_Components
             CurrentKeyboardState = Keyboard.GetState();
         }
 
-        public bool IsKeyPressed(Keys key)
+        public static bool IsKeyPressed(Keys key)
         {
             return CurrentKeyboardState.IsKeyDown(key) && !LastKeyboardState.IsKeyDown(key);
+        }
+
+        public static bool LeftClick()
+        {
+            return CurrentMouseState.LeftButton == ButtonState.Pressed &&
+                   LastMouseState.LeftButton == ButtonState.Released;
+        }
+
+        public static bool RightClick()
+        {
+            return CurrentMouseState.RightButton == ButtonState.Pressed &&
+                   LastMouseState.RightButton == ButtonState.Released;
         }
 
 

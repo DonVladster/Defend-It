@@ -45,19 +45,20 @@ namespace Defend_It
             rectangle.Y = Main.WindowHeight - rectangle.Height;
 
             AmmoManager = new AmmoManager();
-            InputHandler.Instance.LeftClick += delegate { AmmoManager.CreateMissile(TopCenterPosition); };
-            InputHandler.Instance.RightClick += delegate { AmmoManager.CreateTripleMissile(TopCenterPosition); };
+           
         }
 
         public void Update(GameTime gameTime)
         {
-            UpdatePosition();   
+            UpdatePosition();
+            if (InputHandler.LeftClick()) AmmoManager.CreateMissile(TopCenterPosition);
+            if(InputHandler.RightClick()) AmmoManager.CreateTripleMissile(TopCenterPosition); 
             AmmoManager.Update(gameTime);
         }
 
         public void UpdatePosition()
         {
-            X = InputHandler.Instance.CurrentMouseState.X - rectangle.Width / 2;
+            X = InputHandler.CurrentMouseState.X - rectangle.Width / 2;
         }
 
 

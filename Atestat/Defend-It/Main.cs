@@ -40,10 +40,10 @@ namespace Defend_It
 
         public bool IsMouseOnScreen()
         {
-            if (InputHandler.Instance.CurrentMouseState.X <= 0) return false;
-            if (InputHandler.Instance.CurrentMouseState.X >= WindowWidth) return false;
-            if (InputHandler.Instance.CurrentMouseState.Y <= 0) return false;
-            if (InputHandler.Instance.CurrentMouseState.Y >= WindowHeight) return false;
+            if (InputHandler.CurrentMouseState.X <= 0) return false;
+            if (InputHandler.CurrentMouseState.X >= WindowWidth) return false;
+            if (InputHandler.CurrentMouseState.Y <= 0) return false;
+            if (InputHandler.CurrentMouseState.Y >= WindowHeight) return false;
             return true;
         }
 
@@ -74,14 +74,12 @@ namespace Defend_It
 
         protected override void LoadContent()
         {
-
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            InputHandler.Instance.Update();
+            InputHandler.Update();
 
             GameStates[CurrentGameState]?.Update(gameTime);
 
@@ -96,7 +94,11 @@ namespace Defend_It
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+
             GameStates[CurrentGameState]?.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

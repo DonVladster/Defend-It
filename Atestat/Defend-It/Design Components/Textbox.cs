@@ -63,23 +63,21 @@ namespace Defend_It.Design_Components
             IsFocused = false;
             this.rectangle = rectangle;
             Text = text;
-
-            InputHandler.Instance.LeftClick += OnLeftClick;
         }
-
-        private void OnLeftClick(object sender, EventArgs eventArgs)
-        {
-            var mouseRectangle = new Rectangle(InputHandler.Instance.CurrentMouseState.Position, new Point(1, 1));
-
-            if (mouseRectangle.Intersects(rectangle))
-                IsFocused = true;
-            else
-                IsFocused = false;
-        }
-
+        
         public override void Update(GameTime gameTime)
         {
             UpdateKeyboardInput();
+
+            if (InputHandler.LeftClick())
+            {
+                var mouseRectangle = new Rectangle(InputHandler.CurrentMouseState.Position, new Point(1, 1));
+
+                if (mouseRectangle.Intersects(rectangle))
+                    IsFocused = true;
+                else
+                    IsFocused = false;
+            }
 
             base.Update(gameTime);
         }
@@ -88,14 +86,14 @@ namespace Defend_It.Design_Components
         {
             if (!IsFocused) return;
 
-            if (InputHandler.Instance.IsKeyPressed(Keys.Back) && Text.Length > 0)
+            if (InputHandler.IsKeyPressed(Keys.Back) && Text.Length > 0)
                 Text = Text.Remove(Text.Length - 1);
 
-            if (InputHandler.Instance.CurrentKeyboardState.GetPressedKeys().Length <= 0) return;
+            if (InputHandler.CurrentKeyboardState.GetPressedKeys().Length <= 0) return;
 
-            foreach (var key in InputHandler.Instance.CurrentKeyboardState.GetPressedKeys())
+            foreach (var key in InputHandler.CurrentKeyboardState.GetPressedKeys())
             {
-                if (!InputHandler.Instance.IsKeyPressed(key)) return;
+                if (!InputHandler.IsKeyPressed(key)) return;
                 if (!KeyIsAllowedInName(key)) return;
 
                 var textToAdd = key.ToString();

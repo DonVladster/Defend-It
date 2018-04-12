@@ -24,7 +24,7 @@ namespace Defend_It.Game_Objects
 
         public Missile(Point location, YRotation rotation)
         {
-            Texture = Assets.Textures["Rocket"];
+            Texture = Assets.Textures["rocket"];
             Rectangle = new Rectangle(location, DefaultSize);
             IsDestroyed = false;
 

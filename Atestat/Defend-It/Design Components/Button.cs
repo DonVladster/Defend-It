@@ -57,16 +57,6 @@ namespace Defend_It.Design_Components
             color = new Color(255, 255, 255, 255);
             Enabled = true;
             Visible = true;
-
-            InputHandler.Instance.LeftClick += OnLeftClick;
-        }
-
-        private void OnLeftClick(object sender, EventArgs eventArgs)
-        {
-            var mouseRectangle =
-                new Rectangle(InputHandler.Instance.CurrentMouseState.X, InputHandler.Instance.CurrentMouseState.Y, 1, 1);
-            if (mouseRectangle.Intersects(rectangle))
-                Click?.Invoke(null, null);
         }
 
         private void RestoreColorAlpha()
@@ -81,11 +71,16 @@ namespace Defend_It.Design_Components
         {
             if (!Enabled) return;
 
+          
+
             var mouseRectangle =
-                new Rectangle(InputHandler.Instance.CurrentMouseState.X, InputHandler.Instance.CurrentMouseState.Y, 1, 1);
+                new Rectangle(InputHandler.CurrentMouseState.X, InputHandler.CurrentMouseState.Y, 1, 1);
 
             if (mouseRectangle.Intersects(rectangle))
+            {
+                if (InputHandler.LeftClick()) Click?.Invoke(null, null);
                 UpdateColorAlpha();
+            }
             else
                 RestoreColorAlpha();
         }

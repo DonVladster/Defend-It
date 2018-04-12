@@ -37,7 +37,7 @@ namespace Defend_It.Game_Objects
 
         public void Update(GameTime gameTime)
         {
-            Rectangle.X = InputHandler.Instance.CurrentMouseState.X - Rectangle.Width / 2;
+            Rectangle.X = InputHandler.CurrentMouseState.X - Rectangle.Width / 2;
         }
 
         public void Draw(SpriteBatch spriteBatch)
