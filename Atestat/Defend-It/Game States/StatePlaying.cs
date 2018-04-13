@@ -120,12 +120,10 @@ namespace Defend_It.Game_States
 
             CheckMissileFlyCollision();
             UpdateLevelOnScore();
+            CheckGameOver();
+            
 
-            if (Lives <= 0)
-            {
-                Main.Instance.FocusOnGameState("EndGame");
-                ((StateEndGame) Main.Instance.GameStates[Main.Instance.CurrentGameState]).Score = Score;
-            }
+            if(!Main.Instance.IsMouseOnScreen()) Main.Instance.FocusOnGameState("Paused");
         }
 
         private void CheckMissileFlyCollision()
@@ -152,6 +150,17 @@ namespace Defend_It.Game_States
 
             // Main.Instance.FocusOnGameState("Shop");
         }
+
+        public void CheckGameOver()
+        {
+            if (Lives <= 0)
+            {
+                Main.Instance.FocusOnGameState("EndGame");
+                ((StateEndGame)Main.Instance.GameStates[Main.Instance.CurrentGameState]).Score = Score;
+            }
+        }
+
+        
 
         public override void Draw(SpriteBatch spriteBatch)
         {

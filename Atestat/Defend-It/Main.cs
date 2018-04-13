@@ -68,7 +68,8 @@ namespace Defend_It
             {
                 new StateMainMenu(),
                 new StatePlaying(),
-                new StateEndGame() 
+                new StateEndGame(),
+                new StatePaused()
             });
             FocusOnGameState("MainMenu");
 
