@@ -41,8 +41,8 @@ namespace Defend_It
 
             rectangle.Width = 64;
             rectangle.Height = 64;
-            rectangle.X = Main.WindowWidth / 2 - rectangle.Width;
-            rectangle.Y = Main.WindowHeight - rectangle.Height;
+            rectangle.X = Main.Instance.WindowWidth / 2 - rectangle.Width;
+            rectangle.Y = Main.Instance.WindowHeight - rectangle.Height;
 
             AmmoManager = new AmmoManager();
            
@@ -58,7 +58,8 @@ namespace Defend_It
 
         public void UpdatePosition()
         {
-            X = InputHandler.CurrentMouseState.X - rectangle.Width / 2;
+            if(Main.Instance.IsMouseOnScreen())
+                X = InputHandler.CurrentMouseState.X - rectangle.Width / 2;
         }
 
 

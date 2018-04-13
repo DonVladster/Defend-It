@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Defend_It
 {
+    //TODO: CHANGE THE NAME
     public class FlyManager
     {
         //TODO : REMOVE THE FUCKING NAMES FORM THE CODE FFS
@@ -39,7 +40,7 @@ namespace Defend_It
         private double elapsedCreateTimeSoldierFly, elapsedCreateTimeJuggernautFly, elapsedCreateTimeMammothFly, elapsedCreateTimeHuskyFly;
         private double elapsedMovementTime;
 
-        public List<Fly> Flies = new List<Fly>();
+        public List<Fly> Flies;
 
         public event EventHandler FlyKilled;
         public event EventHandler FlyReachedTarget;
@@ -47,6 +48,8 @@ namespace Defend_It
 
         public FlyManager()
         {
+            Flies = new List<Fly>();
+
             SpawnTimeSoldierFly = BaseSpawnTimeSoldierFly;
             SpawnTimeJuggernautFly = BaseSpawnTimeJuggernautFly;
             SpawnTimeMammothFly = BaseSpawnTimeMammothFly;
@@ -116,7 +119,7 @@ namespace Defend_It
         private void RemoveFliesReachedTarget()
         {
             for (var i = 0; i < Flies.Count; i++)
-                if (Flies[i].Rectangle.Y + Flies[i].Rectangle.Height >= Main.WindowHeight)
+                if (Flies[i].Rectangle.Y + Flies[i].Rectangle.Height >= Main.Instance.WindowHeight)
                 {
                     FlyReachedTarget?.Invoke(Flies[i], null);
                 }
@@ -124,9 +127,9 @@ namespace Defend_It
 
         public void UnlockNewFlies(int level)
         {
-            if (level == UnlockingLevelJuggernautFly) CanCreateJuggernautFly = true;
-            if (level == UnlockingLevelHuskyFly) CanCreateHuskyFly = true;
-            if (level == UnlockingLevelMammothFly) CanCreateMammothFly = true;
+            CanCreateJuggernautFly = level >= UnlockingLevelJuggernautFly;
+            CanCreateHuskyFly = level >= UnlockingLevelHuskyFly;
+            CanCreateMammothFly = level >= UnlockingLevelMammothFly;
         }
 
 

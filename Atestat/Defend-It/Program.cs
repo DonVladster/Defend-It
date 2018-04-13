@@ -14,8 +14,10 @@ namespace Defend_It
         [STAThread]
         static void Main()
         {
-            using (var game = new Main())
-                game.Run();
+            //using (var game = new Main())
+            //    game.Run();
+            Defend_It.Main.Instance.Run();
+
         }
     }
 #endif

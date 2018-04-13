@@ -20,7 +20,7 @@ namespace Defend_It.Game_Objects
         public int MovementIncrement => (int)(BaseMovementIncrement * Speed);
 
         private Random rand = new Random();
-        private int GetFlyNextPositionX => rand.Next(0, Main.WindowWidth - Rectangle.Width);
+        private int GetFlyNextPositionX => rand.Next(0, Main.Instance.WindowWidth - Rectangle.Width);
 
         public int PointsGiven;
         public int HealthPoints;

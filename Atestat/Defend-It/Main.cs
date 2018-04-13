@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Defend_It.Design_Components;
 using Defend_It.Game_States;
 using Defend_It.IO_Components;
@@ -14,8 +15,8 @@ namespace Defend_It
         private SpriteBatch spriteBatch;
 
 
-        public static int WindowHeight = 600;
-        public static int WindowWidth = 800;
+        public int WindowHeight = 600;
+        public int WindowWidth = 800;
 
         private static Main instance;
         public static Main Instance
@@ -38,8 +39,10 @@ namespace Defend_It
             GameStates = new List<GameState>();
 
             Content.RootDirectory = "Content";
-        }
 
+            Exiting += delegate { Dispose(); };
+        }
+        
         public bool IsMouseOnScreen()
         {
             if (InputHandler.CurrentMouseState.X <= 0) return false;
@@ -64,9 +67,10 @@ namespace Defend_It
             GameStates.AddRange(new GameState[]
             {
                 new StateMainMenu(),
-                new StatePlaying()
+                new StatePlaying(),
+                new StateEndGame() 
             });
-            FocusOnGameState("Playing");
+            FocusOnGameState("MainMenu");
 
             graphics.PreferredBackBufferHeight = WindowHeight;
             graphics.PreferredBackBufferWidth = WindowWidth;
@@ -88,7 +92,7 @@ namespace Defend_It
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            
             base.Update(gameTime);
         }
 

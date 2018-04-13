@@ -71,8 +71,6 @@ namespace Defend_It.Design_Components
         {
             if (!Enabled) return;
 
-          
-
             var mouseRectangle =
                 new Rectangle(InputHandler.CurrentMouseState.X, InputHandler.CurrentMouseState.Y, 1, 1);
 

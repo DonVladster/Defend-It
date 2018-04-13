@@ -52,13 +52,13 @@ namespace Defend_It.Design_Components
         public virtual void Update(GameTime gameTime)
         {
             if (!Visible) return;
+            
 
-            visibilityTime -= elapsedTime;
-
-            if (visibilityTime <= 0)
+            if (elapsedTime >= visibilityTime && visibilityTime != -1) 
             {
                 Visible = false;
                 elapsedTime = 0;
+                visibilityTime = -1;
             }
 
             elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;

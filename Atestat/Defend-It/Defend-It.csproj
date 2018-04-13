@@ -49,6 +49,7 @@
     <Compile Include="Game Objects\Fly.cs" />
     <Compile Include="Game Objects\Missile.cs" />
     <Compile Include="Game States\GameState.cs" />
+    <Compile Include="Game States\StateEndGame.cs" />
     <Compile Include="Game States\StateMainMenu.cs" />
     <Compile Include="Game States\StatePlaying.cs" />
     <Compile Include="IO Components\Assets.cs" />

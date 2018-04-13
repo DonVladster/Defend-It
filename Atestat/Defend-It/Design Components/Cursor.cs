@@ -17,8 +17,11 @@ namespace Defend_It.Design_Components
 
         public void Update()
         {
-            position.X = InputHandler.CurrentMouseState.X - 16;
-            position.Y = InputHandler.CurrentMouseState.Y - 16;
+            if (Main.Instance.IsMouseOnScreen())
+            {
+                position.X = InputHandler.CurrentMouseState.X - 16;
+                position.Y = InputHandler.CurrentMouseState.Y - 16;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
