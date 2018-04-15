@@ -9,16 +9,16 @@ namespace Defend_It.Game_States
 {
     public class StateShop : GameState
     {
-        private readonly Dictionary<string, Label> labels = new Dictionary<string, Label>();
-        private readonly Dictionary<string, Button> buttons = new Dictionary<string, Button>();
+        private Dictionary<string, Label> labels = new Dictionary<string, Label>();
+        private Dictionary<string, Button> buttons = new Dictionary<string, Button>();
 
-        private readonly Vector2 defaultButtonSize = new Vector2(64);
+        private Vector2 defaultButtonSize = new Vector2(64);
         private const int DefaultPriceLife = 50;
         private const int ModifierPriceLife = 2;
         private int PriceLife => DefaultPriceLife * (int)Math.Pow(ModifierPriceLife, Lives - 1);
 
         private const int PriceTripleAmmo = 40;
-        private const int PricePower = 400;
+        private int PricePower = 300;
 
         private int Dollars
         {
@@ -79,10 +79,9 @@ namespace Defend_It.Game_States
 
         public StateShop() : base("Shop")
         {
-
-            labels["ShopName"] = new Label("Mayhem Shop", Vector2.Zero);
+            labels["ShopName"] = new Label("Magazin", Vector2.Zero);
             labels["ShopName"].Position = new Vector2((float)Main.Instance.WindowWidth / 2 - labels["ShopName"].Size.X / 2, 16);
-            labels["Upgrades"] = new Label("Upgraduri: ", new Vector2(32, 128));
+            labels["Upgrades"] = new Label("Imbunatatiri: ", new Vector2(32, 128));
             labels["Consumables"] = new Label("Consumabile: ", new Vector2(32, 256));
             labels["Dollars"] = new Label("Dolari: " + Dollars, Vector2.Zero);
             labels["Dollars"].Position = new Vector2((float)Main.Instance.WindowWidth / 2 - labels["Dollars"].Size.X / 2,
@@ -112,7 +111,7 @@ namespace Defend_It.Game_States
                 new Vector2(labels["Consumables"].Position.X + labels["Consumables"].Size.X,
                     labels["Consumables"].Position.Y - 16),
                 defaultButtonSize);
-            labels["Amount_TripleAmmo"] = new Label("Cantitate: " + TripleShotsQuantity, Vector2.Zero);
+            labels["Amount_TripleAmmo"] = new Label("Munitie x3: " + TripleShotsQuantity, Vector2.Zero);
             labels["Amount_TripleAmmo"].Position = new Vector2(
                 buttons["Buy_TripleAmmo"].Position.X + buttons["Buy_TripleAmmo"].Size.X / 2 -
                 labels["Amount_TripleAmmo"].Size.X / 2,
@@ -123,7 +122,7 @@ namespace Defend_It.Game_States
                     labels["Amount_TripleAmmo"].Size.Y));
 
             buttons["Buy_Lives"] = new Button(Assets.GetTexture("heart"),
-                new Vector2(labels["Consumables"].Position.X + labels["Consumables"].Size.X + 96,
+                new Vector2(labels["Consumables"].Position.X + labels["Consumables"].Size.X + 110,
                     labels["Consumables"].Position.Y - 16),
                 defaultButtonSize);
             labels["Amount_Lives"] = new Label("Vieti: " + Lives, new Vector2());
@@ -134,6 +133,9 @@ namespace Defend_It.Game_States
             labels["Price_Lives"] = new Label(PriceLife + "$", new Vector2(
                 buttons["Buy_Lives"].Position.X + buttons["Buy_Lives"].Size.X / 2 - 15,
                 buttons["Buy_Lives"].Position.Y + buttons["Buy_Lives"].Size.Y + labels["Amount_Lives"].Size.Y));
+
+            labels["Info"] = new Label("Apasa  click  dreapta  pentru  a  trage  cu   munitia  tripla!!",
+                new Vector2(10, 380));
 
             buttons["Continue"].Click += delegate
             {
@@ -152,7 +154,10 @@ namespace Defend_It.Game_States
             buttons["Upgrade_Power"].Click += delegate
             {
                 if (SpendMoney(PricePower))
+                {
                     MissilePower++;
+                    PricePower *= 2;
+                }
             };
 
         }
@@ -177,7 +182,7 @@ namespace Defend_It.Game_States
         public void UpdateLabels()
         {
             labels["Dollars"].Text = "Dolari: " + Dollars;
-            labels["Amount_TripleAmmo"].Text = "Munitie: " + TripleShotsQuantity;
+            labels["Amount_TripleAmmo"].Text = "Munitie x3: " + TripleShotsQuantity;
             labels["Amount_Lives"].Text = "Vieti: " + Lives;
             labels["Price_Lives"].Text = PriceLife + "$";
             labels["Upgrade_Power"].Text = "Putere: " + MissilePower;
@@ -189,7 +194,6 @@ namespace Defend_It.Game_States
             spriteBatch.Draw(Assets.GetTexture("grass"), Vector2.Zero,
                 new Rectangle(0, 0, Main.Instance.WindowWidth, Main.Instance.WindowHeight), Color.White, 0,
                 Vector2.Zero, 1f, SpriteEffects.None, 0);
-
 
             foreach (var label in labels)
                 label.Value.Draw(spriteBatch);
