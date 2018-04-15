@@ -5,7 +5,6 @@ namespace Defend_It.Game_States
 {
     public class GameState
     {
-        public bool Focused;
         public string Name;
 
         public GameState(string name)

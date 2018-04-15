@@ -53,6 +53,7 @@
     <Compile Include="Game States\StateMainMenu.cs" />
     <Compile Include="Game States\StatePaused.cs" />
     <Compile Include="Game States\StatePlaying.cs" />
+    <Compile Include="Game States\StateShop.cs" />
     <Compile Include="IO Components\Assets.cs" />
     <Compile Include="IO Components\ErrorLog.cs" />
     <Compile Include="IO Components\InputHandler.cs" />

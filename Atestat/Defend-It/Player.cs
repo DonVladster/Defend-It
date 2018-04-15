@@ -81,8 +81,8 @@ namespace Defend_It
 
         public List<Missile> Missiles;
 
-        public static int MissilePower;
-        public static int TripleShotsQuantity;
+        public int MissilePower;
+        public int TripleShotsQuantity;
 
         public AmmoManager()
         {
@@ -133,7 +133,7 @@ namespace Defend_It
 
         public void CreateTripleMissile(Point creationPoint)
         {
-            if (TripleShotsQuantity == 0 || elapsedCreateTime < TimeBetweenShots) return;
+            if (TripleShotsQuantity <= 0 || elapsedCreateTime < TimeBetweenShots) return;
 
             creationPoint.X -= Missile.DefaultSize.X / 2;
             Missiles.Add(new Missile(creationPoint, Missile.YRotation.None));

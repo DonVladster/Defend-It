@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Defend_It.Design_Components;
 using Defend_It.Game_States;
 using Defend_It.IO_Components;
@@ -54,9 +53,16 @@ namespace Defend_It
 
         public void FocusOnGameState(string gameStateName)
         {
-            foreach (var state in GameStates)
-                if (state.Name == gameStateName)
-                    CurrentGameState = GameStates.IndexOf(state);
+            if(GetGameState(gameStateName) != null)
+            CurrentGameState = GameStates.IndexOf(GetGameState(gameStateName));
+        }
+
+        public GameState GetGameState(string gameStateName)
+        {
+            foreach(var state in GameStates)
+                if (state.Name == gameStateName) return state;
+
+            return null;
         }
 
         protected override void Initialize()
@@ -69,7 +75,8 @@ namespace Defend_It
                 new StateMainMenu(),
                 new StatePlaying(),
                 new StateEndGame(),
-                new StatePaused()
+                new StatePaused(),
+                new StateShop()
             });
             FocusOnGameState("MainMenu");
 

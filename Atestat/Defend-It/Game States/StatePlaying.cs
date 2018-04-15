@@ -13,7 +13,7 @@ namespace Defend_It.Game_States
     {
         private Dictionary<string, Label> labels = new Dictionary<string, Label>();
         private FlyManager flyManager;
-        private Player player;
+        public Player Player;
 
         private int level;
         public int Level
@@ -38,23 +38,12 @@ namespace Defend_It.Game_States
         public int ShouldReceiveDollarBonus = 1;
         public int DollarBonus => 10 * Level;
         public int Score;
-        public static int Dollars;
+        public int Dollars;
 
         private float volume = 0.05f;
         private const float Pitch = 0.0f, Pan = 0.0f;
 
-        public static int Lives;
-
-        private static StatePlaying instance;
-        public static StatePlaying Instance
-        {
-            get
-            {
-                if (instance == null) instance = new StatePlaying();
-                return instance;
-            }
-            set => instance = value;
-        }
+        public int Lives;
         
         public StatePlaying() : base("Playing")
         {
@@ -72,7 +61,7 @@ namespace Defend_It.Game_States
 
         public void CreateNewGame()
         {
-            player = new Player();
+            Player = new Player();
             flyManager = new FlyManager();
 
             Level = 1;
@@ -114,7 +103,7 @@ namespace Defend_It.Game_States
 
         public override void Update(GameTime gameTime)
         {
-            player.Update(gameTime);
+            Player.Update(gameTime);
             flyManager.Update(gameTime);
             UpdateLabels(gameTime);
 
@@ -128,10 +117,10 @@ namespace Defend_It.Game_States
 
         private void CheckMissileFlyCollision()
         {
-            foreach (var missile in player.AmmoManager.Missiles)
+            foreach (var missile in Player.AmmoManager.Missiles)
             foreach (var fly in flyManager.Flies.Where(fly => fly.Rectangle.Intersects(missile.Rectangle)))
             {
-                fly.HealthPoints -= AmmoManager.MissilePower;
+                fly.HealthPoints -= ((StatePlaying)Main.Instance.GetGameState("Playing")).Player.AmmoManager.MissilePower;
                 if (fly.HealthPoints > 0)
                     Assets.GetSoundEffect("rocketExplosion").Play(volume, Pitch, Pan);
                 missile.IsDestroyed = true;
@@ -148,7 +137,7 @@ namespace Defend_It.Game_States
             if (ShouldReceiveDollarBonus == 1)
                 Dollars += DollarBonus;
 
-            // Main.Instance.FocusOnGameState("Shop");
+            Main.Instance.FocusOnGameState("Shop");
         }
 
         public void CheckGameOver()
@@ -169,7 +158,7 @@ namespace Defend_It.Game_States
                 SpriteEffects.None, 0);
 
             flyManager.Draw(spriteBatch);
-            player.Draw(spriteBatch);
+            Player.Draw(spriteBatch);
 
             foreach (var label in labels)
                 label.Value.Draw(spriteBatch);
