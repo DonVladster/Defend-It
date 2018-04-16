@@ -3,6 +3,7 @@ using Defend_It.Game_Objects;
 using Defend_It.IO_Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Defend_It
 {
@@ -51,17 +52,30 @@ namespace Defend_It
         public void Update(GameTime gameTime)
         {
             UpdatePosition();
-            if (InputHandler.LeftClick()) AmmoManager.CreateMissile(TopCenterPosition);
-            if(InputHandler.RightClick()) AmmoManager.CreateTripleMissile(TopCenterPosition); 
+            if (InputHandler.LeftClick() || InputHandler.IsKeyPressed(Keys.A)) AmmoManager.CreateMissile(TopCenterPosition);
+            if(InputHandler.RightClick() || InputHandler.IsKeyPressed(Keys.D)) AmmoManager.CreateTripleMissile(TopCenterPosition); 
             AmmoManager.Update(gameTime);
         }
 
         public void UpdatePosition()
         {
-            if(Main.Instance.IsMouseOnScreen())
+            //UpdateMouseMovement();
+            UpdateKeyboardMovement();
+        }
+
+        private void UpdateMouseMovement()
+        {
+            if (Main.Instance.IsMouseOnScreen())
                 X = InputHandler.CurrentMouseState.X - rectangle.Width / 2;
         }
 
+        private void UpdateKeyboardMovement()
+        {
+            foreach (var key in InputHandler.CurrentKeyboardState.GetPressedKeys())
+            if (key == Keys.Left && X - 10 > 0) X -= 10;
+                else if (key == Keys.Right && X + 10 + rectangle.Size.X < Main.Instance.WindowWidth) X += 10;
+        
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
