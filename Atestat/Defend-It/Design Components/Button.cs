@@ -45,7 +45,6 @@ namespace Defend_It.Design_Components
         public bool Enabled;
         public bool Visible;
 
-        //TODO: ASK SORIN IF THIS IS OK, OR SHOULD I MAKE A STATIC INSTANCE FOR THIS CLASS
         public event EventHandler Click;
 
         public Button(Texture2D texture, Vector2 position, Vector2 size)
@@ -96,7 +95,6 @@ namespace Defend_It.Design_Components
             if (!Visible) return;
 
 
-            //TODO : Try to remove the if!!
             if (Rotation == 0.0f)
                 spriteBatch.Draw(Texture, rectangle, color);
             else spriteBatch.Draw(Texture, rectangle, null, color, Rotation,

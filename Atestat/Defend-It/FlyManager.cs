@@ -11,10 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Defend_It
 {
-    //TODO: CHANGE THE NAME
     public class FlyManager
     {
-        //TODO : REMOVE THE FUCKING NAMES FORM THE CODE FFS
+        
         private const int UnlockingLevelJuggernautFly = 3;
         private const int UnlockingLevelMammothFly = 10;
         private const int UnlockingLevelHuskyFly = 7;
@@ -106,7 +105,7 @@ namespace Defend_It
             elapsedCreateTimeSoldierFly += gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
-        //TODO: CHANGE THE NAMES
+        
         private void RemoveDeadFlies()
         {
             for (var i = 0; i < Flies.Count; i++)

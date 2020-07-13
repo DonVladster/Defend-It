@@ -123,8 +123,9 @@ namespace Defend_It.Game_States
                 fly.HealthPoints -= ((StatePlaying)Main.Instance.GetGameState("Playing")).Player.AmmoManager.MissilePower;
                 if (fly.HealthPoints > 0)
                     Assets.GetSoundEffect("rocketExplosion").Play(volume, Pitch, Pan);
-                missile.IsDestroyed = true;
+                missile.Destroy();
             }
+
         }
 
         public void UpdateLevelOnScore()

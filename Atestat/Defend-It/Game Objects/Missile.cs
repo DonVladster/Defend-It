@@ -20,13 +20,13 @@ namespace Defend_It.Game_Objects
 
         private Color color = Color.White;
 
-        public bool IsDestroyed;
+        private bool isDestroyed;
 
         public Missile(Point location, YRotation rotation)
         {
             Texture = Assets.GetTexture("rocket");
             Rectangle = new Rectangle(location, DefaultSize);
-            IsDestroyed = false;
+            isDestroyed = false;
 
             Rotation = rotation;
         }
@@ -41,6 +41,11 @@ namespace Defend_It.Game_Objects
 
             if (Rotation == YRotation.Right)
                 spriteBatch.Draw(Texture, Rectangle, null, color, 0.50f, new Vector2(0), SpriteEffects.None, 0);
+        }
+
+        public void Destroy()
+        {
+            isDestroyed = true;
         }
 
     }

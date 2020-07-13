@@ -52,24 +52,23 @@ namespace Defend_It
         public void Update(GameTime gameTime)
         {
             UpdatePosition();
-            if (InputHandler.LeftClick() || InputHandler.IsKeyPressed(Keys.A)) AmmoManager.CreateMissile(TopCenterPosition);
-            if(InputHandler.RightClick() || InputHandler.IsKeyPressed(Keys.D)) AmmoManager.CreateTripleMissile(TopCenterPosition); 
+            if (InputHandler.LeftClick()) AmmoManager.CreateMissile(TopCenterPosition);
+            if(InputHandler.RightClick()) AmmoManager.CreateTripleMissile(TopCenterPosition); 
             AmmoManager.Update(gameTime);
         }
 
         public void UpdatePosition()
         {
-            //UpdateMouseMovement();
-            UpdateKeyboardMovement();
+            UpdatePositionByMouse();
         }
 
-        private void UpdateMouseMovement()
+        private void UpdatePositionByMouse()
         {
             if (Main.Instance.IsMouseOnScreen())
                 X = InputHandler.CurrentMouseState.X - rectangle.Width / 2;
         }
 
-        private void UpdateKeyboardMovement()
+        private void UpdatePositionByKeyboard()
         {
             foreach (var key in InputHandler.CurrentKeyboardState.GetPressedKeys())
             if (key == Keys.Left && X - 10 > 0) X -= 10;
@@ -85,6 +84,7 @@ namespace Defend_It
 
 
     }
+
     public class AmmoManager
     {
         private const int TimeBetweenShots = 200;

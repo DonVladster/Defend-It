@@ -13,12 +13,13 @@ namespace Defend_It.Game_States
         private Dictionary<string, Button> buttons = new Dictionary<string, Button>();
 
         private Vector2 defaultButtonSize = new Vector2(64);
-        private const int DefaultPriceLife = 50;
-        private const int ModifierPriceLife = 2;
-        private int PriceLife => DefaultPriceLife * (int)Math.Pow(ModifierPriceLife, Lives - 1);
+        private const int DEFAULT_PRICE_LIFE = 50;
+        private const int MODIFIER_PRICE_LIFE = 2;
+        private int PriceLife => DEFAULT_PRICE_LIFE * (int)Math.Pow(MODIFIER_PRICE_LIFE, Lives - 1);
 
-        private const int PriceTripleAmmo = 40;
-        private int PricePower = 300;
+        private const int PRICE_TRIPLE_AMMO = 40;
+        private const int DEFAULT_PRICE_POWER = 300;
+        private int PricePower = 0;
 
         private int Dollars
         {
@@ -79,6 +80,8 @@ namespace Defend_It.Game_States
 
         public StateShop() : base("Shop")
         {
+            PricePower = DEFAULT_PRICE_POWER;
+
             labels["ShopName"] = new Label("Magazin", Vector2.Zero);
             labels["ShopName"].Position = new Vector2((float)Main.Instance.WindowWidth / 2 - labels["ShopName"].Size.X / 2, 16);
             labels["Upgrades"] = new Label("Imbunatatiri: ", new Vector2(32, 128));
@@ -116,7 +119,7 @@ namespace Defend_It.Game_States
                 buttons["Buy_TripleAmmo"].Position.X + buttons["Buy_TripleAmmo"].Size.X / 2 -
                 labels["Amount_TripleAmmo"].Size.X / 2,
                 buttons["Buy_TripleAmmo"].Position.Y + buttons["Buy_TripleAmmo"].Size.Y);
-            labels["Price_TripleAmmo"] = new Label(PriceTripleAmmo + "$",
+            labels["Price_TripleAmmo"] = new Label(PRICE_TRIPLE_AMMO + "$",
                 new Vector2(buttons["Buy_TripleAmmo"].Position.X + buttons["Buy_TripleAmmo"].Size.X / 2 - 15,
                     buttons["Buy_TripleAmmo"].Position.Y + buttons["Buy_TripleAmmo"].Size.Y +
                     labels["Amount_TripleAmmo"].Size.Y));
@@ -143,7 +146,7 @@ namespace Defend_It.Game_States
             };
             buttons["Buy_TripleAmmo"].Click += delegate
             {
-                if (SpendMoney(PriceTripleAmmo))
+                if (SpendMoney(PRICE_TRIPLE_AMMO))
                     TripleShotsQuantity += 10;
             };
             buttons["Buy_Lives"].Click += delegate
@@ -182,10 +185,13 @@ namespace Defend_It.Game_States
         public void UpdateLabels()
         {
             labels["Dollars"].Text = "Dolari: " + Dollars;
+
             labels["Amount_TripleAmmo"].Text = "Munitie x3: " + TripleShotsQuantity;
             labels["Amount_Lives"].Text = "Vieti: " + Lives;
-            labels["Price_Lives"].Text = PriceLife + "$";
             labels["Upgrade_Power"].Text = "Putere: " + MissilePower;
+
+            labels["Price_Lives"].Text = PriceLife + "$";
+            labels["Price_Power"].Text = PricePower + "$";
         }
 
 

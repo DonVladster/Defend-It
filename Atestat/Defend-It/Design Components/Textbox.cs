@@ -8,7 +8,6 @@ namespace Defend_It.Design_Components
     public class Textbox : Label
     {
 
-        //TODO: ASK SORIN ABOUT THIS SHIT
         private Texture2D texture;
         public new string Text
         {
